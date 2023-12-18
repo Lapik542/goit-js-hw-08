@@ -1,30 +1,24 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
 .gallery {
-  list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  list-style: none;
   padding: 0;
-  margin: 20px;
+  margin: 0;
 }
 
 .gallery-item {
-  width: 150px;
-  overflow: hidden;
+  margin: 10px;
 }
 
 .gallery-link {
-  display: block;
+  text-decoration: none;
 }
 
 .gallery-image {
   width: 100%;
   height: auto;
-  transition: transform 0.3s ease-in-out;
+  border-radius: 8px;
+  transition: transform 0.3s;
 }
 
 .gallery-image:hover {
