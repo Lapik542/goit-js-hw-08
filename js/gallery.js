@@ -84,7 +84,9 @@ function createGalleryItem({ preview, original, description }) {
 }
 
 function updateGallery() {
-  galleryContainer.innerHTML = ''; // Очистити галерею перед додаванням нових елементів
+  while (galleryContainer.firstChild) {
+    galleryContainer.removeChild(galleryContainer.firstChild);
+  }
 
   const galleryMarkup = images.map(createGalleryItem).join('');
   galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup);
