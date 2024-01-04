@@ -79,19 +79,26 @@ const images = [
   </li>
   `, '');
 
-gallery.addEventListener('click', (event) => {
-  event.preventDefault();
-
-  if (event.target.nodeName !== 'IMG') {
-    return;
-  };
-
-  const largeImageSrc = event.target.dataset.source;
-  const instance = basicLightbox.create(`
-  <img src="${largeImageSrc}">
-`);
-instance.show(gallery.addEventListener('keydown', (evt) => {
-  if (evt.code === 'Escape') {
-    instance.close();
-  }
-}))});
+  gallery.addEventListener('click', (event) => {
+    event.preventDefault();
+  
+    if (event.target.nodeName !== 'IMG') {
+      return;
+    }
+  
+    const largeImageSrc = event.target.dataset.source;
+    const instance = basicLightbox.create(`
+      <img src="${largeImageSrc}" alt="${event.target.alt}" width="1280">
+    `);
+  
+    instance.show();
+  
+    const keydownHandler = (evt) => {
+      if (evt.code === 'Escape') {
+        instance.close();
+        document.removeEventListener('keydown', keydownHandler);
+      }
+    };
+  
+    document.addEventListener('keydown', keydownHandler);
+  });
