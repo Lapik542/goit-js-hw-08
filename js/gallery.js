@@ -90,12 +90,8 @@ gallery.addEventListener('click', (event) => {
   const instance = basicLightbox.create(`
   <img src="${largeImageSrc}">
 `);
-instance.show();
-
-gallery.addEventListener('keydown', (evt) => {
+instance.show(gallery.addEventListener('keydown', (evt) => {
   if (evt.code === 'Escape') {
     instance.close();
   }
-});
-  console.log(`Displaying large image: ${largeImageSrc}`);
-});
+}))});
