@@ -64,41 +64,51 @@ const images = [
     },
   ];
 
-  const gallery = document.querySelector('.gallery')
+  const gallery = document.querySelector('.gallery');
 
-  gallery.innerHTML = images.reduce((html, images) => html + `
-  <li class="gallery-item">
-    <a class="gallery-link" href="${images.original}">
-      <img
-        class="gallery-image"
-        src="${images.preview}"
-        data-source="${images.original}"
-        alt="${images.description}"
-      />
-    </a>
-  </li>
+  gallery.innerHTML = images.reduce((html, image) => html + `
+    <li class="gallery-item">
+      <a class="gallery-link" href="${image.original}">
+        <img
+          class="gallery-image"
+          src="${image.preview}"
+          data-source="${image.original}"
+          alt="${image.description}"
+        />
+      </a>
+    </li>
   `, '');
-
-  gallery.addEventListener('click', (event) => {
-    event.preventDefault();
   
-    if (event.target.nodeName !== 'IMG') {
-      return;
-    }
-  
-    const largeImageSrc = event.target.dataset.source;
+  const openLightbox = (original, description) => {
     const instance = basicLightbox.create(`
-      <img src="${largeImageSrc}" alt="${event.target.alt}" width="1280">
+      <img src="${original}" alt="${description}" width="1280">
     `);
-  
-    instance.show();
   
     const keydownHandler = (evt) => {
       if (evt.code === 'Escape') {
         instance.close();
-        document.removeEventListener('keydown', keydownHandler);
       }
     };
   
+    instance.show();
     document.addEventListener('keydown', keydownHandler);
+  
+    instance.onClose(() => {
+      document.removeEventListener('keydown', keydownHandler);
+    });
+  };
+  
+  gallery.addEventListener('click', (event) => {
+    event.preventDefault();
+  
+    const targetImg = event.target.closest('.gallery-image');
+  
+    if (!targetImg) {
+      return;
+    }
+  
+    const largeImageSrc = targetImg.dataset.source;
+    const altText = targetImg.alt;
+  
+    openLightbox(largeImageSrc, altText);
   });
